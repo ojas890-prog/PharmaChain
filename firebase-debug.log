@@ -1,62 +1,186 @@
-[debug] [2026-07-09T18:57:12.927Z] ----------------------------------------------------------------------
-[debug] [2026-07-09T18:57:12.938Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\admin\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
-[debug] [2026-07-09T18:57:12.939Z] CLI Version:   15.22.4
-[debug] [2026-07-09T18:57:12.940Z] Platform:      win32
-[debug] [2026-07-09T18:57:12.940Z] Node Version:  v24.14.0
-[debug] [2026-07-09T18:57:12.941Z] Detected Agent: unknown
-[debug] [2026-07-09T18:57:12.942Z] Time:          Fri Jul 10 2026 00:27:12 GMT+0530 (India Standard Time)
-[debug] [2026-07-09T18:57:12.942Z] ----------------------------------------------------------------------
+[debug] [2026-07-09T19:48:25.086Z] ----------------------------------------------------------------------
+[debug] [2026-07-09T19:48:25.093Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\admin\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting --debug
+[debug] [2026-07-09T19:48:25.093Z] CLI Version:   15.22.4
+[debug] [2026-07-09T19:48:25.094Z] Platform:      win32
+[debug] [2026-07-09T19:48:25.094Z] Node Version:  v24.14.0
+[debug] [2026-07-09T19:48:25.094Z] Detected Agent: unknown
+[debug] [2026-07-09T19:48:25.094Z] Time:          Fri Jul 10 2026 01:18:25 GMT+0530 (India Standard Time)
+[debug] [2026-07-09T19:48:25.095Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2026-07-09T18:57:12.953Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2026-07-09T19:48:28.595Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-07-09T19:48:28.597Z] > authorizing via signed-in user (oshirode07@gmail.com)
+[debug] [2026-07-09T19:48:28.597Z] [iam] checking project pharmachain-system-63ccd for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-07-09T19:48:28.600Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:48:28.601Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:48:28.602Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/pharmachain-system-63ccd:testIamPermissions [none]
+[debug] [2026-07-09T19:48:28.603Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/pharmachain-system-63ccd:testIamPermissions  x-goog-user-project=pharmachain-system-63ccd
+[debug] [2026-07-09T19:48:28.603Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/pharmachain-system-63ccd:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-07-09T19:48:30.026Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/pharmachain-system-63ccd:testIamPermissions 200
+[debug] [2026-07-09T19:48:30.027Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/pharmachain-system-63ccd:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-07-09T19:48:30.028Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:48:30.029Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:48:30.031Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/pharmachain-system-63ccd [none]
+[debug] [2026-07-09T19:48:30.674Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/pharmachain-system-63ccd 200
+[debug] [2026-07-09T19:48:30.675Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/pharmachain-system-63ccd {"projectId":"pharmachain-system-63ccd","projectNumber":"150034620878","displayName":"PharmaChain-System","name":"projects/pharmachain-system-63ccd","resources":{"hostingSite":"pharmachain-system-63ccd","realtimeDatabaseInstance":"pharmachain-system-63ccd-default-rtdb"},"state":"ACTIVE","labels":{"firebase":"enabled"},"etag":"1_92cf892e-9275-4811-a64f-171dde00c4c2"}
 [info] 
-     ######## #### ########  ######## ########     ###     ######  ########
-     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
-     ######    ##  ########  ######   ########  #########  ######  ######
-     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
-     ##       #### ##     ## ######## ########  ##     ##  ######  ########
-
-You're about to initialize a Firebase project in this directory:
-
-  C:\Users\admin\Desktop\PharmaChain
-
-[debug] [2026-07-09T18:57:22.030Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
-[debug] [2026-07-09T18:57:22.031Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[info] === Deploying to 'pharmachain-system-63ccd'...
 [info] 
-=== Project Setup
+[info] i  deploying hosting 
+[debug] [2026-07-09T19:48:30.708Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:48:30.709Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:48:30.710Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/pharmachain-system-63ccd/sites/pharmachain-system-63ccd [none]
+[debug] [2026-07-09T19:48:31.977Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/pharmachain-system-63ccd/sites/pharmachain-system-63ccd 200
+[debug] [2026-07-09T19:48:31.978Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/pharmachain-system-63ccd/sites/pharmachain-system-63ccd {"name":"projects/pharmachain-system-63ccd/sites/pharmachain-system-63ccd","defaultUrl":"https://pharmachain-system-63ccd.web.app","appId":"1:150034620878:web:5a9ea66f201bc0983fcb9f","type":"DEFAULT_SITE"}
+[debug] [2026-07-09T19:48:31.991Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:48:31.991Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:48:31.992Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/versions [none]
+[debug] [2026-07-09T19:48:31.993Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2026-07-09T19:48:33.703Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/versions 200
+[debug] [2026-07-09T19:48:33.704Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/versions {"name":"projects/150034620878/sites/pharmachain-system-63ccd/versions/5bd3ce4a51dc187f","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[pharmachain-system-63ccd]: beginning deploy... 
+[info] i  hosting[pharmachain-system-63ccd]: found 14 files in . 
+[debug] [2026-07-09T19:48:33.730Z] [hosting] uploading with 200 concurrency
+[debug] [2026-07-09T19:48:33.738Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:48:33.739Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:48:33.740Z] [hosting] hash cache [] stored for 14 files
+[debug] [2026-07-09T19:48:33.741Z] [hosting][hash queue][FINAL] {"max":4,"min":1,"avg":1,"active":0,"complete":14,"success":14,"errored":0,"retried":0,"total":14,"elapsed":7}
+[debug] [2026-07-09T19:48:33.741Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/150034620878/sites/pharmachain-system-63ccd/versions/5bd3ce4a51dc187f:populateFiles [none]
+[debug] [2026-07-09T19:48:33.742Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/150034620878/sites/pharmachain-system-63ccd/versions/5bd3ce4a51dc187f:populateFiles {"files":{"/style.css":"b248bbb7e1f46f974e5444be929ff0b824e239a12c021246e9c53c5c1aeba61e","/pharmacy.html":"5b6e66b3cc4edaa735c38bb867f19d6c4e76241b308218354b8beeb267886bc1","/manufacturer.html":"f9151bc0acfcf8cf91c3a4bdc7a70c6e38e7e9db3b9f94e04e5b57a38f89c185","/index.html":"e76ac99215ac826978696c3bc758bd64f1af4310390064f463bdcca69a1d8b13","/distributor.html":"dd13e9616126454abf53739b1e6b726b04d734296e97487a83764537f0cab687","/dashboard.js":"c83b2f918cf37bd530ab56363920ae74fb976de83e7ef30efe7e1df273e976fe","/dashboard.html":"e8f15d51b1210968d6b0fbae7d6785ae2d8f9fd74ca89eceb5802c9da177b9b2","/dashboard-router.js":"54fa81233190c86bd86ca3dfec49aa803377bb58c391f5e51c2e9220c5812038","/auth.js":"2240b38d4092de7e373a8f0af7d6f7f82b8dd6c56e590cb5d3c1c1da7e7f2d7c","/auth.html":"3474478fc2d6d2c3d47fdd97ab872018301a157d6fed8395fd25e91063e5afc7","/app.js":"83da93bef068aa76567104a3b270eca85f6902e663b46f128f64b1bbca21b406","/admin.html":"aa189b1bfeff61fcce31fb5fe0e836071da84b596fa5f89dd1e0ada4bf529968","/404.html":"762bf484ba67404bd1a3b181546ea28d60dfddf18e9dd4795d8d25bcf3c1a890","/.github/workflows/firebase-hosting-pull-request.yml":"015327c5a59f9c4d4c9dce7af4405128154c7179ac3362f97270796b7c0a062d"}}
+[debug] [2026-07-09T19:48:34.473Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/150034620878/sites/pharmachain-system-63ccd/versions/5bd3ce4a51dc187f:populateFiles 200
+[debug] [2026-07-09T19:48:34.474Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/150034620878/sites/pharmachain-system-63ccd/versions/5bd3ce4a51dc187f:populateFiles {"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/pharmachain-system-63ccd/versions/5bd3ce4a51dc187f/files"}
+[debug] [2026-07-09T19:48:34.488Z] [hosting][populate queue][FINAL] {"max":750,"min":750,"avg":750,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":750}
+[debug] [2026-07-09T19:48:34.490Z] [hosting] uploads queued: 0
+[debug] [2026-07-09T19:48:34.497Z] [hosting][upload queue][FINAL] {"max":0,"min":9999999999,"avg":0,"active":0,"complete":0,"success":0,"errored":0,"retried":0,"total":0,"elapsed":1783626514497}
+[info] i  hosting: upload complete 
+[info] +  hosting[pharmachain-system-63ccd]: file upload complete 
+[debug] [2026-07-09T19:48:34.510Z] [hosting] deploy completed after 801ms
+[debug] [2026-07-09T19:48:34.520Z] [
+  {
+    "config": {
+      "public": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "site": "pharmachain-system-63ccd"
+    },
+    "version": "projects/150034620878/sites/pharmachain-system-63ccd/versions/5bd3ce4a51dc187f"
+  }
+]
+[info] i  hosting[pharmachain-system-63ccd]: finalizing version... 
+[debug] [2026-07-09T19:48:34.528Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:48:34.534Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:48:34.535Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/versions/5bd3ce4a51dc187f updateMask=status%2Cconfig
+[debug] [2026-07-09T19:48:34.536Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/versions/5bd3ce4a51dc187f {"status":"FINALIZED","config":{}}
+[debug] [2026-07-09T19:48:35.528Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/versions/5bd3ce4a51dc187f 200
+[debug] [2026-07-09T19:48:35.530Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/versions/5bd3ce4a51dc187f {"name":"projects/150034620878/sites/pharmachain-system-63ccd/versions/5bd3ce4a51dc187f","status":"FINALIZED","config":{},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2026-07-09T19:48:28.886532Z","createUser":{"email":"oshirode07@gmail.com"},"finalizeTime":"2026-07-09T19:48:31.505803Z","finalizeUser":{"email":"oshirode07@gmail.com"}}
+[debug] [2026-07-09T19:48:35.534Z] [hosting] finalized version for pharmachain-system-63ccd:[object Object]
+[info] +  hosting[pharmachain-system-63ccd]: version finalized 
+[info] i  hosting[pharmachain-system-63ccd]: releasing new version... 
+[debug] [2026-07-09T19:48:35.544Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:48:35.544Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:48:35.545Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/channels/live/releases versionName=projects%2F150034620878%2Fsites%2Fpharmachain-system-63ccd%2Fversions%2F5bd3ce4a51dc187f
+[debug] [2026-07-09T19:48:35.546Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/channels/live/releases {}
+[debug] [2026-07-09T19:48:36.391Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/channels/live/releases 200
+[debug] [2026-07-09T19:48:36.392Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/channels/live/releases {"name":"projects/150034620878/sites/pharmachain-system-63ccd/channels/live/releases/1783626511665000","version":{"name":"projects/150034620878/sites/pharmachain-system-63ccd/versions/5bd3ce4a51dc187f","status":"FINALIZED","config":{},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2026-07-09T19:48:28.886532Z","createUser":{"email":"oshirode07@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL5uqU1_nlVm5iyHlemwEhdpGilfziHRIoFslmosd05ZXJ8Kg0=mo"},"finalizeTime":"2026-07-09T19:48:31.505803Z","finalizeUser":{"email":"oshirode07@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL5uqU1_nlVm5iyHlemwEhdpGilfziHRIoFslmosd05ZXJ8Kg0=mo"}},"type":"DEPLOY","releaseTime":"2026-07-09T19:48:31.665Z","releaseUser":{"email":"oshirode07@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL5uqU1_nlVm5iyHlemwEhdpGilfziHRIoFslmosd05ZXJ8Kg0=mo"}}
+[debug] [2026-07-09T19:48:36.393Z] [hosting] release: {"name":"projects/150034620878/sites/pharmachain-system-63ccd/channels/live/releases/1783626511665000","version":{"name":"projects/150034620878/sites/pharmachain-system-63ccd/versions/5bd3ce4a51dc187f","status":"FINALIZED","config":{},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2026-07-09T19:48:28.886532Z","createUser":{"email":"oshirode07@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL5uqU1_nlVm5iyHlemwEhdpGilfziHRIoFslmosd05ZXJ8Kg0=mo"},"finalizeTime":"2026-07-09T19:48:31.505803Z","finalizeUser":{"email":"oshirode07@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL5uqU1_nlVm5iyHlemwEhdpGilfziHRIoFslmosd05ZXJ8Kg0=mo"}},"type":"DEPLOY","releaseTime":"2026-07-09T19:48:31.665Z","releaseUser":{"email":"oshirode07@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL5uqU1_nlVm5iyHlemwEhdpGilfziHRIoFslmosd05ZXJ8Kg0=mo"}}
+[info] +  hosting[pharmachain-system-63ccd]: release complete 
 [info] 
-[info] First, let's associate this project directory with a Firebase project.
-[info] You can create multiple project aliases by running firebase use --add, 
+[info] +  Deploy complete! 
 [info] 
-[debug] [2026-07-09T18:58:09.998Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2026-07-09T18:58:09.999Z] > authorizing via signed-in user (oshirode07@gmail.com)
-[debug] [2026-07-09T18:58:10.000Z] Checked if tokens are valid: false, expires at: 1781364166882
-[debug] [2026-07-09T18:58:10.001Z] Checked if tokens are valid: false, expires at: 1781364166882
-[debug] [2026-07-09T18:58:10.001Z] > refreshing access token with scopes: []
-[debug] [2026-07-09T18:58:10.004Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
-[debug] [2026-07-09T18:58:10.004Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2026-07-09T18:58:10.136Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
-[debug] [2026-07-09T18:58:10.136Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2026-07-09T18:58:10.210Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/supportview-5e96e [none]
-[debug] [2026-07-09T18:58:10.963Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/supportview-5e96e 200
-[debug] [2026-07-09T18:58:10.964Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/supportview-5e96e {"projectId":"supportview-5e96e","projectNumber":"926159141730","displayName":"SupportView","name":"projects/supportview-5e96e","resources":{"hostingSite":"supportview-5e96e","realtimeDatabaseInstance":"supportview-5e96e-default-rtdb"},"state":"ACTIVE","labels":{"firebase":"enabled"},"etag":"1_b4b38608-88cc-4bb4-9646-a559f908a35b"}
-[info] i  Using project supportview-5e96e (SupportView) . 
+[info] Project Console: https://console.firebase.google.com/project/pharmachain-system-63ccd/overview
+[info] Hosting URL: https://pharmachain-system-63ccd.web.app
+[debug] [2026-07-09T19:49:53.619Z] ----------------------------------------------------------------------
+[debug] [2026-07-09T19:49:53.624Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\admin\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting --project pharmachain-system-63ccd --debug
+[debug] [2026-07-09T19:49:53.624Z] CLI Version:   15.22.4
+[debug] [2026-07-09T19:49:53.624Z] Platform:      win32
+[debug] [2026-07-09T19:49:53.624Z] Node Version:  v24.14.0
+[debug] [2026-07-09T19:49:53.625Z] Detected Agent: unknown
+[debug] [2026-07-09T19:49:53.625Z] Time:          Fri Jul 10 2026 01:19:53 GMT+0530 (India Standard Time)
+[debug] [2026-07-09T19:49:53.625Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-07-09T19:49:57.719Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-07-09T19:49:57.722Z] > authorizing via signed-in user (oshirode07@gmail.com)
+[debug] [2026-07-09T19:49:57.724Z] [iam] checking project pharmachain-system-63ccd for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-07-09T19:49:57.728Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:49:57.734Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:49:57.737Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/pharmachain-system-63ccd:testIamPermissions [none]
+[debug] [2026-07-09T19:49:57.738Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/pharmachain-system-63ccd:testIamPermissions  x-goog-user-project=pharmachain-system-63ccd
+[debug] [2026-07-09T19:49:57.742Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/pharmachain-system-63ccd:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-07-09T19:49:59.177Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/pharmachain-system-63ccd:testIamPermissions 200
+[debug] [2026-07-09T19:49:59.177Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/pharmachain-system-63ccd:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-07-09T19:49:59.182Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:49:59.188Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:49:59.192Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/pharmachain-system-63ccd [none]
+[debug] [2026-07-09T19:49:59.621Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/pharmachain-system-63ccd 200
+[debug] [2026-07-09T19:49:59.622Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/pharmachain-system-63ccd {"projectId":"pharmachain-system-63ccd","projectNumber":"150034620878","displayName":"PharmaChain-System","name":"projects/pharmachain-system-63ccd","resources":{"hostingSite":"pharmachain-system-63ccd","realtimeDatabaseInstance":"pharmachain-system-63ccd-default-rtdb"},"state":"ACTIVE","labels":{"firebase":"enabled"},"etag":"1_92cf892e-9275-4811-a64f-171dde00c4c2"}
 [info] 
-=== Hosting Setup
-[debug] [2026-07-09T18:58:11.067Z] Checked if tokens are valid: true, expires at: 1783627089137
-[debug] [2026-07-09T18:58:11.068Z] Checked if tokens are valid: true, expires at: 1783627089137
-[debug] [2026-07-09T18:58:11.068Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/supportview-5e96e [none]
-[debug] [2026-07-09T18:58:11.475Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/supportview-5e96e 200
-[debug] [2026-07-09T18:58:11.476Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/supportview-5e96e {"projectId":"supportview-5e96e","projectNumber":"926159141730","displayName":"SupportView","name":"projects/supportview-5e96e","resources":{"hostingSite":"supportview-5e96e","realtimeDatabaseInstance":"supportview-5e96e-default-rtdb"},"state":"ACTIVE","labels":{"firebase":"enabled"},"etag":"1_b4b38608-88cc-4bb4-9646-a559f908a35b"}
+[info] === Deploying to 'pharmachain-system-63ccd'...
 [info] 
-[info] Your public directory is the folder (relative to your project directory) that
-[info] will contain Hosting assets to be uploaded with firebase deploy. If you
-[info] have a build process for your assets, use your build's output directory.
+[info] i  deploying hosting 
+[debug] [2026-07-09T19:49:59.636Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:49:59.637Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:49:59.638Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/pharmachain-system-63ccd/sites/pharmachain-system-63ccd [none]
+[debug] [2026-07-09T19:50:01.042Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/pharmachain-system-63ccd/sites/pharmachain-system-63ccd 200
+[debug] [2026-07-09T19:50:01.043Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/pharmachain-system-63ccd/sites/pharmachain-system-63ccd {"name":"projects/pharmachain-system-63ccd/sites/pharmachain-system-63ccd","defaultUrl":"https://pharmachain-system-63ccd.web.app","appId":"1:150034620878:web:5a9ea66f201bc0983fcb9f","type":"DEFAULT_SITE"}
+[debug] [2026-07-09T19:50:01.057Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:50:01.058Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:50:01.061Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/versions [none]
+[debug] [2026-07-09T19:50:01.067Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2026-07-09T19:50:02.768Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/versions 200
+[debug] [2026-07-09T19:50:02.769Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/versions {"name":"projects/150034620878/sites/pharmachain-system-63ccd/versions/26e0db9a5a81d0bd","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[pharmachain-system-63ccd]: beginning deploy... 
+[info] i  hosting[pharmachain-system-63ccd]: found 14 files in . 
+[debug] [2026-07-09T19:50:02.792Z] [hosting] uploading with 200 concurrency
+[debug] [2026-07-09T19:50:02.802Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:50:02.803Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:50:02.808Z] [hosting] hash cache [] stored for 14 files
+[debug] [2026-07-09T19:50:02.812Z] [hosting][hash queue][FINAL] {"max":3,"min":1,"avg":1,"active":0,"complete":14,"success":14,"errored":0,"retried":0,"total":14,"elapsed":14}
+[debug] [2026-07-09T19:50:02.812Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/150034620878/sites/pharmachain-system-63ccd/versions/26e0db9a5a81d0bd:populateFiles [none]
+[debug] [2026-07-09T19:50:02.823Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/150034620878/sites/pharmachain-system-63ccd/versions/26e0db9a5a81d0bd:populateFiles {"files":{"/style.css":"b248bbb7e1f46f974e5444be929ff0b824e239a12c021246e9c53c5c1aeba61e","/pharmacy.html":"5b6e66b3cc4edaa735c38bb867f19d6c4e76241b308218354b8beeb267886bc1","/manufacturer.html":"f9151bc0acfcf8cf91c3a4bdc7a70c6e38e7e9db3b9f94e04e5b57a38f89c185","/index.html":"e76ac99215ac826978696c3bc758bd64f1af4310390064f463bdcca69a1d8b13","/distributor.html":"dd13e9616126454abf53739b1e6b726b04d734296e97487a83764537f0cab687","/dashboard.js":"c83b2f918cf37bd530ab56363920ae74fb976de83e7ef30efe7e1df273e976fe","/dashboard.html":"e8f15d51b1210968d6b0fbae7d6785ae2d8f9fd74ca89eceb5802c9da177b9b2","/dashboard-router.js":"54fa81233190c86bd86ca3dfec49aa803377bb58c391f5e51c2e9220c5812038","/auth.js":"2240b38d4092de7e373a8f0af7d6f7f82b8dd6c56e590cb5d3c1c1da7e7f2d7c","/auth.html":"3474478fc2d6d2c3d47fdd97ab872018301a157d6fed8395fd25e91063e5afc7","/app.js":"83da93bef068aa76567104a3b270eca85f6902e663b46f128f64b1bbca21b406","/admin.html":"aa189b1bfeff61fcce31fb5fe0e836071da84b596fa5f89dd1e0ada4bf529968","/404.html":"762bf484ba67404bd1a3b181546ea28d60dfddf18e9dd4795d8d25bcf3c1a890","/.github/workflows/firebase-hosting-pull-request.yml":"015327c5a59f9c4d4c9dce7af4405128154c7179ac3362f97270796b7c0a062d"}}
+[debug] [2026-07-09T19:50:03.572Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/150034620878/sites/pharmachain-system-63ccd/versions/26e0db9a5a81d0bd:populateFiles 200
+[debug] [2026-07-09T19:50:03.573Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/150034620878/sites/pharmachain-system-63ccd/versions/26e0db9a5a81d0bd:populateFiles {"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/pharmachain-system-63ccd/versions/26e0db9a5a81d0bd/files"}
+[debug] [2026-07-09T19:50:03.580Z] [hosting][populate queue][FINAL] {"max":778,"min":778,"avg":778,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":778}
+[debug] [2026-07-09T19:50:03.587Z] [hosting] uploads queued: 0
+[debug] [2026-07-09T19:50:03.589Z] [hosting][upload queue][FINAL] {"max":0,"min":9999999999,"avg":0,"active":0,"complete":0,"success":0,"errored":0,"retried":0,"total":0,"elapsed":1783626603589}
+[info] i  hosting: upload complete 
+[info] +  hosting[pharmachain-system-63ccd]: file upload complete 
+[debug] [2026-07-09T19:50:03.595Z] [hosting] deploy completed after 821ms
+[debug] [2026-07-09T19:50:03.597Z] [
+  {
+    "config": {
+      "public": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "site": "pharmachain-system-63ccd"
+    },
+    "version": "projects/150034620878/sites/pharmachain-system-63ccd/versions/26e0db9a5a81d0bd"
+  }
+]
+[info] i  hosting[pharmachain-system-63ccd]: finalizing version... 
+[debug] [2026-07-09T19:50:03.610Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:50:03.611Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:50:03.612Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/versions/26e0db9a5a81d0bd updateMask=status%2Cconfig
+[debug] [2026-07-09T19:50:03.613Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/versions/26e0db9a5a81d0bd {"status":"FINALIZED","config":{}}
+[debug] [2026-07-09T19:50:04.592Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/versions/26e0db9a5a81d0bd 200
+[debug] [2026-07-09T19:50:04.592Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/versions/26e0db9a5a81d0bd {"name":"projects/150034620878/sites/pharmachain-system-63ccd/versions/26e0db9a5a81d0bd","status":"FINALIZED","config":{},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2026-07-09T19:49:58.029806Z","createUser":{"email":"oshirode07@gmail.com"},"finalizeTime":"2026-07-09T19:50:00.547756Z","finalizeUser":{"email":"oshirode07@gmail.com"}}
+[debug] [2026-07-09T19:50:04.595Z] [hosting] finalized version for pharmachain-system-63ccd:[object Object]
+[info] +  hosting[pharmachain-system-63ccd]: version finalized 
+[info] i  hosting[pharmachain-system-63ccd]: releasing new version... 
+[debug] [2026-07-09T19:50:04.605Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:50:04.605Z] Checked if tokens are valid: true, expires at: 1783628718912
+[debug] [2026-07-09T19:50:04.606Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/channels/live/releases versionName=projects%2F150034620878%2Fsites%2Fpharmachain-system-63ccd%2Fversions%2F26e0db9a5a81d0bd
+[debug] [2026-07-09T19:50:04.607Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/channels/live/releases {}
+[debug] [2026-07-09T19:50:05.431Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/channels/live/releases 200
+[debug] [2026-07-09T19:50:05.432Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pharmachain-system-63ccd/channels/live/releases {"name":"projects/150034620878/sites/pharmachain-system-63ccd/channels/live/releases/1783626600724000","version":{"name":"projects/150034620878/sites/pharmachain-system-63ccd/versions/26e0db9a5a81d0bd","status":"FINALIZED","config":{},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2026-07-09T19:49:58.029806Z","createUser":{"email":"oshirode07@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL5uqU1_nlVm5iyHlemwEhdpGilfziHRIoFslmosd05ZXJ8Kg0=mo"},"finalizeTime":"2026-07-09T19:50:00.547756Z","finalizeUser":{"email":"oshirode07@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL5uqU1_nlVm5iyHlemwEhdpGilfziHRIoFslmosd05ZXJ8Kg0=mo"}},"type":"DEPLOY","releaseTime":"2026-07-09T19:50:00.724Z","releaseUser":{"email":"oshirode07@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL5uqU1_nlVm5iyHlemwEhdpGilfziHRIoFslmosd05ZXJ8Kg0=mo"}}
+[debug] [2026-07-09T19:50:05.443Z] [hosting] release: {"name":"projects/150034620878/sites/pharmachain-system-63ccd/channels/live/releases/1783626600724000","version":{"name":"projects/150034620878/sites/pharmachain-system-63ccd/versions/26e0db9a5a81d0bd","status":"FINALIZED","config":{},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2026-07-09T19:49:58.029806Z","createUser":{"email":"oshirode07@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL5uqU1_nlVm5iyHlemwEhdpGilfziHRIoFslmosd05ZXJ8Kg0=mo"},"finalizeTime":"2026-07-09T19:50:00.547756Z","finalizeUser":{"email":"oshirode07@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL5uqU1_nlVm5iyHlemwEhdpGilfziHRIoFslmosd05ZXJ8Kg0=mo"}},"type":"DEPLOY","releaseTime":"2026-07-09T19:50:00.724Z","releaseUser":{"email":"oshirode07@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL5uqU1_nlVm5iyHlemwEhdpGilfziHRIoFslmosd05ZXJ8Kg0=mo"}}
+[info] +  hosting[pharmachain-system-63ccd]: release complete 
 [info] 
+[info] +  Deploy complete! 
 [info] 
-[info] i  Didn't detect a .git folder. Assuming C:\Users\admin\Desktop\PharmaChain is the project root. 
-[info] i  Authorizing with GitHub to upload your service account to a GitHub repository's secrets store. 
-[info] 
-[info] Visit this URL on this device to log in:
-[info] https://github.com/login/oauth/authorize?client_id=89cf50f02ac6aaed3484&state=735894949&redirect_uri=http%3A%2F%2Flocalhost%3A9005&scope=read%3Auser%20repo%20public_repo
-[info] 
-[info] Waiting for authentication...
+[info] Project Console: https://console.firebase.google.com/project/pharmachain-system-63ccd/overview
+[info] Hosting URL: https://pharmachain-system-63ccd.web.app
