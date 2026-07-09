@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>PharmaChain - Identity Authorization Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0a0f1d;
+            --bg-card: rgba(20, 27, 47, 0.7);
+            --primary: #00f2fe;
+            --primary-glow: rgba(0, 242, 254, 0.3);
+            --secondary: #4facfe;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --font: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font);
+        }
+
+        body.auth-page-bg {
+            background-color: var(--bg-dark) !important;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Cyberpunk Ambient Neon Glow Background */
+        body.auth-page-bg::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 242, 254, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(79, 172, 254, 0.08) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100%;
+            padding: 2rem 1rem;
+            background: transparent !important;
+        }
+
+        /* Premium Glassmorphic Card */
+        .auth-card-premium {
+            background: var(--bg-card) !important;
+            border: 1px solid var(--border) !important;
+            backdrop-filter: blur(16px);
+            border-radius: 24px !important;
+            padding: 3rem 2.5rem;
+            width: 100%;
+            max-width: 520px !important;
+            margin: 2rem auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 242, 254, 0.03) !important;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .auth-card-premium:hover {
+            border-color: rgba(0, 242, 254, 0.2) !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 50px rgba(0, 242, 254, 0.06) !important;
+        }
+
+        /* Pill Navigation Tabs */
+        .auth-nav-tabs {
+            display: flex;
+            background: rgba(10, 15, 29, 0.6);
+            padding: 6px;
+            border-radius: 14px;
+            margin-bottom: 2.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .auth-tab-btn {
+            flex: 1;
+            padding: 0.85rem;
+            border: none;
+            background: transparent;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .auth-tab-btn:hover {
+            color: var(--text-main);
+        }
+
+        .auth-tab-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--bg-dark) !important;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.25);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .auth-logo {
+            width: 65px;
+            height: 65px;
+            background: rgba(0, 242, 254, 0.1);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            margin: 0 auto 1.25rem auto;
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .auth-logo.register {
+            background: rgba(79, 172, 254, 0.1);
+            color: var(--secondary);
+            border-color: rgba(79, 172, 254, 0.2);
+        }
+
+        .auth-header h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ffffff 60%, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .auth-header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Inputs and Select Customization */
+        .form-group-premium {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group-premium label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .form-group-premium input, .form-group-premium select {
+            width: 100%;
+            padding: 0.9rem 1.1rem;
+            background: rgba(10, 15, 29, 0.5);
+            border: 1px solid var(--border) !important;
+            border-radius: 10px !important;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group-premium select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='%2394a3b8' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.2em;
+            padding-right: 2.5rem;
+        }
+
+        .form-group-premium select option {
+            background: var(--bg-dark);
+            color: var(--text-main);
+        }
+
+        .form-group-premium input::placeholder {
+            color: rgba(148, 163, 184, 0.4);
+        }
+
+        .form-group-premium input:focus, .form-group-premium select:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.1);
+            background: rgba(10, 15, 29, 0.8);
+        }
+
+        .password-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 1.1rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: color 0.2s ease;
+        }
+
+        .toggle-password:hover {
+            color: var(--primary);
+        }
+
+        .form-grid-two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+
+        /* Action Buttons */
+        .btn-auth-submit {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 10px !important;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 24px rgba(0, 242, 254, 0.2);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 2rem;
+        }
+
+        .btn-auth-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 242, 254, 0.35);
+        }
+
+        .btn-auth-submit.registration-btn {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            color: white;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-auth-submit.registration-btn:hover {
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.35);
+        }
+
+        /* Footer links */
+        .auth-footer-links {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .back-home-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .back-home-link:hover {
+            color: var(--primary);
+            transform: translateX(-2px);
+        }
+
+        .hidden-view {
+            display: none !important;
+        }
+
+        /* Media Queries */
+        @media (max-width: 680px) {
+            .form-grid-two-col {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .auth-card-premium {
+                padding: 2.5rem 1.5rem;
+                border-radius: 16px !important;
+            }
+        }
+    </style>
+</head>
+<body class="auth-page-bg">
+
+    <div class="auth-container">
+        <div class="auth-card-premium">
+            
+            <div class="auth-nav-tabs">
+                <button type="button" class="auth-tab-btn active" id="tab-signin" onclick="switchAuthView('signin')">
+                    <i class="fa-solid fa-lock"></i> Authorize Node
+                </button>
+                <button type="button" class="auth-tab-btn" id="tab-signup" onclick="switchAuthView('signup')">
+                    <i class="fa-solid fa-user-plus"></i> Provision Node
+                </button>
+            </div>
+
+            <div id="view-signin">
+                <div class="auth-header">
+                    <div class="auth-logo"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h2>Node Authorization</h2>
+                    <p>Provide secure cryptographic credentials to map session logs into the ledger stream.</p>
+                </div>
+                
+                <form id="signin-form">
+                    <div class="form-group-premium">
+                        <label><i class="fa-solid fa-envelope"></i> Network Email Reference</label>
+                        <input type="email" id="login-email" placeholder="operator@pharmachain.com" required>
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label><i class="fa-solid fa-lock"></i> Passphrase Token</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="login-password" placeholder="••••••••" required>
+                            <button type="button" class="toggle-password" onclick="togglePassField('login-password', this)">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btn-login" class="btn-auth-submit">
+                        <span>Authorize Session</span>
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    </button>
+                </form>
+            </div>
+
+            <div id="view-signup" class="hidden-view">
+                <div class="auth-header">
+                    <div class="auth-logo register"><i class="fa-solid fa-user-plus"></i></div>
+                    <h2>Register Supply Node</h2>
+                    <p>Deploy your physical identity vectors directly into the decentralized role registry.</p>
+                </div>
+                
+                <form id="signup-form">
+                    <div class="form-grid-two-col">
+                        <div class="form-group-premium">
+                            <label><i class="fa-solid fa-user-tie"></i> Representative Name</label>
+                            <input type="text" id="reg-name" placeholder="Dr. Jane Dev" required>
+                        </div>
+                        
+                        <div class="form-group-premium">
+                            <label><i class="fa-solid fa-network-wired"></i> Supply Role</label>
+                            <select id="reg-role" required>
+                                <option value="" disabled selected>Select access role...</option>
+                                <option value="Admin">Admin (TraceLink Overlord)</option>
+                                <option value="Manufacturer">Manufacturer (Supply Inception)</option>
+                                <option value="Distributor">Distributor (Logistical Transit Node)</option>
+                                <option value="Pharmacy">Pharmacy (Point of Sale/Handover)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group-premium">
+                        <label><i class="fa-solid fa-envelope"></i> Corporate Node Email</label>
+                        <input type="email" id="reg-email" placeholder="name@pharmachain.com" required>
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label><i class="fa-solid fa-lock"></i> Secure Access Password</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="reg-password" placeholder="Minimum 6 characters" required>
+                            <button type="button" class="toggle-password" onclick="togglePassField('reg-password', this)">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btn-register" class="btn-auth-submit registration-btn">
+                        <span>Provision Network Account</span>
+                        <i class="fa-solid fa-circle-check"></i>
+                    </button>
+                </form>
+            </div>
+            
+            <div class="auth-footer-links">
+                <a href="index.html" class="back-home-link"><i class="fa-solid fa-house"></i> Public Front Page</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="auth.js"></script>
+    <script>
+        function switchAuthView(viewTarget) {
+            const tabSignIn = document.getElementById('tab-signin');
+            const tabSignUp = document.getElementById('tab-signup');
+            const viewSignIn = document.getElementById('view-signin');
+            const viewSignUp = document.getElementById('view-signup');
+
+            if (viewTarget === 'signin') {
+                tabSignIn.classList.add('active');
+                tabSignUp.classList.remove('active');
+                viewSignIn.classList.remove('hidden-view');
+                viewSignUp.classList.add('hidden-view');
+            } else {
+                tabSignUp.classList.add('active');
+                tabSignIn.classList.remove('active');
+                viewSignUp.classList.remove('hidden-view');
+                viewSignIn.classList.add('hidden-view');
+            }
+        }
+
+        function togglePassField(id, btn) {
+            const el = document.getElementById(id);
+            if (el.type === "password") {
+                el.type = "text";
+                btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+            } else {
+                el.type = "password";
+                btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
+            }
+        }
+    </script>
+</body>
+</html>

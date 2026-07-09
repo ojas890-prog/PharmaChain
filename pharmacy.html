@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy Node Dispersal Management Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0a0f1d;
+            --bg-card: rgba(20, 27, 47, 0.6);
+            --primary: #00f2fe;
+            --primary-glow: rgba(0, 242, 254, 0.2);
+            --secondary: #4facfe;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --font: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Glowing Background Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(circle at 75% 20%, rgba(245, 158, 11, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(0, 242, 254, 0.04) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Sidebar Control Hub */
+        .sidebar {
+            width: 280px;
+            background: rgba(10, 15, 29, 0.8);
+            border-right: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0; bottom: 0; left: 0;
+            z-index: 100;
+        }
+
+        .sidebar-brand {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .sidebar-brand h3 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 0.75rem;
+        }
+
+        .sidebar-brand h3 i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary);
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 5px 14px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 50px;
+            color: #fff;
+            background: linear-gradient(135deg, var(--warning), #d97706) !important;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+        }
+
+        .sidebar-menu {
+            flex-grow: 1;
+            padding: 1.5rem 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.9rem 1.25rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-item i {
+            font-size: 1.1rem;
+            width: 24px;
+        }
+
+        .nav-item:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .nav-item.active {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
+        }
+
+        /* Main Viewspace Layout */
+        .main-content {
+            flex-grow: 1;
+            margin-left: 280px;
+            padding: 3rem;
+            max-width: 1400px;
+            width: calc(100% - 280px);
+        }
+
+        .dashboard-section {
+            animation: sectionFadeIn 0.4s ease-out;
+        }
+
+        .dashboard-section h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #ffffff 60%, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Metric Grid & Cards */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .metric-card {
+            background: var(--bg-card) !important;
+            border: 1px solid var(--border) !important;
+            backdrop-filter: blur(12px);
+            padding: 1.75rem !important;
+            border-radius: 16px !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.15) !important;
+        }
+
+        .metric-card h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .metric-card h2 {
+            font-size: 2.2rem !important;
+            font-weight: 800 !important;
+            margin-top: 1rem !important;
+            letter-spacing: -0.5px;
+        }
+
+        /* Placeholder Panel Components */
+        .empty-placeholder-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 4.5rem 2rem;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            max-width: 620px;
+            margin: 0 auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        }
+
+        .empty-placeholder-box i {
+            font-size: 3.2rem;
+            color: rgba(245, 158, 11, 0.25);
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-placeholder-box p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Scanner Component Panel Alignment */
+        .premium-scanner-card {
+            background: var(--bg-card) !important;
+            border: 1px solid var(--border) !important;
+            padding: 2.5rem !important;
+            border-radius: 20px !important;
+            margin-top: 1.5rem;
+            backdrop-filter: blur(16px);
+            max-width: 640px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+        }
+
+        .premium-scanner-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .premium-scanner-viewport {
+            width: 100%;
+            height: 240px;
+            background: rgba(10, 15, 29, 0.6) !important;
+            border-radius: 12px !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed rgba(0, 242, 254, 0.3) !important;
+            font-weight: 700;
+            color: var(--primary) !important;
+            gap: 12px;
+            box-shadow: inset 0 0 20px rgba(0, 242, 254, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Scanner Target Reticle effect overlay */
+        .premium-scanner-viewport::after {
+            content: '';
+            position: absolute;
+            width: 80%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: radarScan 2.5s ease-in-out infinite;
+        }
+
+        /* Animation System Definitions */
+        @keyframes sectionFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes radarScan {
+            0% { top: 10%; }
+            50% { top: 90%; }
+            100% { top: 10%; }
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 992px) {
+            .sidebar { width: 80px; }
+            .sidebar-brand h3 span, .sidebar-brand .role-badge, .nav-item span { display: none; }
+            .main-content { margin-left: 80px; width: calc(100% - 80px); padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <h3><i class="fa-solid fa-prescription-bottle-medical"></i> <span>PharmaChain</span></h3>
+                <span class="role-badge">Pharmacy Retail Node</span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="#" class="nav-item active" onclick="switchSection('dashboard', event)"><i class="fa-solid fa-house-medical"></i> <span>Dashboard</span></a>
+                <a href="#" class="nav-item" onclick="switchSection('placeorder', event)"><i class="fa-solid fa-cart-shopping"></i> <span>Place Order</span></a>
+                <a href="#" class="nav-item" onclick="switchSection('myorders', event)"><i class="fa-solid fa-clipboard-list"></i> <span>My Orders</span></a>
+                <a href="#" class="nav-item" onclick="switchSection('inventory', event)"><i class="fa-solid fa-basket-shopping"></i> <span>Dispensing Inventory</span></a>
+                <a href="#" class="nav-item" onclick="switchSection('qrverify', event)"><i class="fa-solid fa-qrcode"></i> <span>QR Audit Verification</span></a>
+                <a href="#" class="nav-item" id="rx-logout" style="color:var(--danger); margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> <span>Clear Session</span></a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <!-- Dashboard View Segment -->
+            <div id="sec-dashboard" class="dashboard-section">
+                <h2>Point of Sale & Inventory Node Overview</h2>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h4>Available Medicines</h4>
+                        <h2 style="color:var(--primary);">120 Brands</h2>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Expired Batch Safety Warnings</h4>
+                        <h2 style="color:var(--danger);">0 Flags</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Place Order View Segment -->
+            <div id="sec-placeorder" class="dashboard-section" style="display:none;">
+                <h2>Procure Stock from Distributors</h2>
+                <div class="empty-placeholder-box">
+                    <i class="fa-solid fa-truck-ramp-box"></i>
+                    <p>Wholesale pipeline tracking indexes and logistics inventory ordering matrix structures load dynamically in this section.</p>
+                </div>
+            </div>
+
+            <!-- My Orders View Segment -->
+            <div id="sec-myorders" class="dashboard-section" style="display:none;">
+                <h2>Outbound Freight Audit Trails</h2>
+                <div class="empty-placeholder-box">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    <p>Cryptographic transport invoice receipts and chronological fulfillment histories are indexed inside this component data array.</p>
+                </div>
+            </div>
+
+            <!-- Inventory View Segment -->
+            <div id="sec-inventory" class="dashboard-section" style="display:none;">
+                <h2>Dispensing Pharmacy Real-time Stock</h2>
+                <div class="empty-placeholder-box">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                    <p>Local dispensing ledger profiles, prescription drug counts, and shelf location indices stream into this register panel.</p>
+                </div>
+            </div>
+            
+            <!-- QR Verification View Segment -->
+            <div id="sec-qrverify" class="dashboard-section" style="display:none;">
+                <h2>TraceLink Authenticity Engine Auditing</h2>
+                <div class="premium-scanner-card">
+                    <h3>Verify Drug Provenance Chain</h3>
+                    <p style="color:var(--text-muted); margin-bottom:1.5rem; font-size:0.9rem;">Scan any distributed container payload barcode block matrix signature to check validity profiles.</p>
+                    <div class="premium-scanner-viewport">
+                        <i class="fa-solid fa-camera" style="font-size:2rem;"></i> 
+                        <span>Camera Stream Context Hook Active</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        
+        const app = initializeApp({
+            apiKey: "AIzaSyCG8Nl2pcXWR8vhQB04Z_qIT35eV7MmHHI",
+            authDomain: "pharmachain-system-63ccd.firebaseapp.com",
+            projectId: "pharmachain-system-63ccd",
+            databaseURL: "https://pharmachain-system-63ccd-default-rtdb.firebaseio.com"
+        });
+        const auth = getAuth(app);
+
+        window.switchSection = function(id, event) {
+            if(event) event.preventDefault();
+            document.querySelectorAll('.dashboard-section').forEach(el => el.style.display = 'none');
+            document.getElementById('sec-' + id).style.display = 'block';
+            
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            if(event) event.currentTarget.classList.add('active');
+        };
+
+        document.getElementById("rx-logout").addEventListener("click", (e) => {
+            e.preventDefault();
+            signOut(auth).then(() => window.location.replace("auth.html"));
+        });
+    </script>
+</body>
+</html>

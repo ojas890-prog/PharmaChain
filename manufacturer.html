@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manufacturer Node Ledger Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0a0f1d;
+            --bg-card: rgba(20, 27, 47, 0.6);
+            --primary: #00f2fe;
+            --primary-glow: rgba(0, 242, 254, 0.2);
+            --secondary: #4facfe;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --font: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Glowing Background Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(circle at 80% 20%, rgba(79, 172, 254, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 15% 85%, rgba(0, 242, 254, 0.04) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Sidebar Control Hub */
+        .sidebar {
+            width: 280px;
+            background: rgba(10, 15, 29, 0.8);
+            border-right: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0; bottom: 0; left: 0;
+            z-index: 100;
+        }
+
+        .sidebar-brand {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .sidebar-brand h3 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 0.75rem;
+        }
+
+        .sidebar-brand h3 i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary);
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 5px 14px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 50px;
+            color: #fff;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .sidebar-menu {
+            flex-grow: 1;
+            padding: 1.5rem 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.9rem 1.25rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-item i {
+            font-size: 1.1rem;
+            width: 24px;
+        }
+
+        .nav-item:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .nav-item.active {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+        }
+
+        /* Main Viewspace Area Layout */
+        .main-content {
+            flex-grow: 1;
+            margin-left: 280px;
+            padding: 3rem;
+            max-width: 1400px;
+            width: calc(100% - 280px);
+        }
+
+        .dashboard-section {
+            animation: sectionFadeIn 0.4s ease-out;
+        }
+
+        .dashboard-section h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #ffffff 60%, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Information Empty State Display Boxes */
+        .empty-placeholder-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 4.5rem 2rem;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            max-width: 620px;
+            margin: 0 auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        }
+
+        .empty-placeholder-box i {
+            font-size: 3.2rem;
+            color: rgba(59, 130, 246, 0.25);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.05);
+        }
+
+        .empty-placeholder-box p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Animation System Definitions */
+        @keyframes sectionFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Configuration Changes */
+        @media (max-width: 992px) {
+            .sidebar { width: 80px; }
+            .sidebar-brand h3 span, .sidebar-brand .role-badge, .nav-item span { display: none; }
+            .main-content { margin-left: 80px; width: calc(100% - 80px); padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <h3><i class="fa-solid fa-industry"></i> <span>PharmaChain</span></h3>
+                <span class="role-badge">Manufacturer Node</span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="#" class="nav-item active" onclick="switchSection('dashboard', event)"><i class="fa-solid fa-chart-line"></i> <span>Dashboard</span></a>
+                <a href="#" class="nav-item" onclick="switchSection('medicines', event)"><i class="fa-solid fa-pills"></i> <span>Medicines</span></a>
+                <a href="#" class="nav-item" onclick="switchSection('batches', event)"><i class="fa-solid fa-boxes-stacked"></i> <span>Batches</span></a>
+                <a href="#" class="nav-item" onclick="switchSection('production', event)"><i class="fa-solid fa-square-poll-vertical"></i> <span>Production</span></a>
+                <a href="#" class="nav-item" onclick="switchSection('reports', event)"><i class="fa-solid fa-file-pdf"></i> <span>Ledger Reports</span></a>
+                <a href="#" class="nav-item" onclick="switchSection('profile', event)"><i class="fa-solid fa-gears"></i> <span>Node Profile</span></a>
+                <a href="#" class="nav-item" id="manufacturer-logout" style="color:var(--danger); margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> <span>Clear Session</span></a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div id="sec-dashboard" class="dashboard-section">
+                <h2>Production Overview Metrics</h2>
+                <div class="empty-placeholder-box">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <p>Live active analytics tracking synthesized chemical metrics, processing pipeline margins, and manufacturing yield calculations will populate this pane.</p>
+                </div>
+            </div>
+
+            <div id="sec-medicines" class="dashboard-section" style="display:none;">
+                <h2>Formula Registry Management</h2>
+                <div class="empty-placeholder-box">
+                    <i class="fa-solid fa-capsules"></i>
+                    <p>Active pharmaceutical component parameters, chemical specifications, and registered formula records will be accessible within this view block.</p>
+                </div>
+            </div>
+
+            <div id="sec-batches" class="dashboard-section" style="display:none;">
+                <h2>Cryptographic Batch Allocations</h2>
+                <div class="empty-placeholder-box">
+                    <i class="fa-solid fa-qrcode"></i>
+                    <p>Unique tracking identifiers, timestamp configurations, and secure batch validation profiles will list inside this control container.</p>
+                </div>
+            </div>
+
+            <div id="sec-production" class="dashboard-section" style="display:none;">
+                <h2>Active Production Matrix</h2>
+                <div class="empty-placeholder-box">
+                    <i class="fa-solid fa-flask-vial"></i>
+                    <p>Live compound blending pipelines, synthesis processing tracks, and laboratory metrics are tracked dynamically right here.</p>
+                </div>
+            </div>
+
+            <div id="sec-reports" class="dashboard-section" style="display:none;">
+                <h2>Sales & Supply Ledger PDF Reports Tool</h2>
+                <div class="empty-placeholder-box">
+                    <i class="fa-solid fa-file-shield"></i>
+                    <p>Generate, review, and extract certified cryptographic chain-of-custody reports for compliance validation checks.</p>
+                </div>
+            </div>
+
+            <div id="sec-profile" class="dashboard-section" style="display:none;">
+                <h2>Corporate Identity Profile & Configuration Settings</h2>
+                <div class="empty-placeholder-box">
+                    <i class="fa-solid fa-sliders"></i>
+                    <p>Maintain your local node public tracking addresses, authorized operator references, and cryptographic security credentials.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        
+        const app = initializeApp({
+            apiKey: "AIzaSyCG8Nl2pcXWR8vhQB04Z_qIT35eV7MmHHI",
+            authDomain: "pharmachain-system-63ccd.firebaseapp.com",
+            projectId: "pharmachain-system-63ccd",
+            databaseURL: "https://pharmachain-system-63ccd-default-rtdb.firebaseio.com"
+        });
+        const auth = getAuth(app);
+
+        window.switchSection = function(id, event) {
+            if(event) event.preventDefault();
+            document.querySelectorAll('.dashboard-section').forEach(el => el.style.display = 'none');
+            document.getElementById('sec-' + id).style.display = 'block';
+            
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            if(event) event.currentTarget.classList.add('active');
+        };
+
+        document.getElementById("manufacturer-logout").addEventListener("click", (e) => {
+            e.preventDefault();
+            signOut(auth).then(() => {
+                window.location.replace("auth.html");
+            });
+        });
+    </script>
+</body>
+</html>

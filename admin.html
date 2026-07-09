@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Node Overlord Control Center</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0a0f1d;
+            --bg-card: rgba(20, 27, 47, 0.6);
+            --primary: #00f2fe;
+            --primary-glow: rgba(0, 242, 254, 0.2);
+            --secondary: #4facfe;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --font: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Continuous Ambient Glowing Grid Backdrop */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(circle at 80% 10%, rgba(0, 242, 254, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 10% 90%, rgba(79, 172, 254, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Sidebar Control Hub */
+        .sidebar {
+            width: 280px;
+            background: rgba(10, 15, 29, 0.8);
+            border-right: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0; bottom: 0; left: 0;
+            z-index: 100;
+        }
+
+        .sidebar-brand {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .sidebar-brand h3 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 0.75rem;
+        }
+
+        .sidebar-brand h3 i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary);
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 5px 14px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 50px;
+            color: #fff;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1) !important;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .sidebar-menu {
+            flex-grow: 1;
+            padding: 1.5rem 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.9rem 1.25rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-item i {
+            font-size: 1.1rem;
+            width: 24px;
+        }
+
+        .nav-item:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 242, 254, 0.1);
+            color: var(--primary);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        /* Main Viewspace Layout */
+        .main-content {
+            flex-grow: 1;
+            margin-left: 280px;
+            padding: 3rem;
+            max-width: 1400px;
+            width: calc(100% - 280px);
+        }
+
+        .dashboard-section {
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .dashboard-section h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #ffffff 60%, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Metric Grid & Glassmorphic Cards */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .metric-card {
+            background: var(--bg-card) !important;
+            border: 1px solid var(--border) !important;
+            backdrop-filter: blur(12px);
+            padding: 1.75rem !important;
+            border-radius: 16px !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.15) !important;
+        }
+
+        .metric-card h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .metric-card h2 {
+            font-size: 2.5rem !important;
+            font-weight: 800 !important;
+            margin-top: 1rem !important;
+            letter-spacing: -1px;
+        }
+
+        /* Dynamic System Tables */
+        .table-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            margin-top: 1.5rem;
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            background: transparent !important;
+        }
+
+        tr {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s ease;
+        }
+
+        tr:last-child {
+            border-bottom: none;
+        }
+
+        th {
+            background: rgba(10, 15, 29, 0.5) !important;
+            color: var(--text-muted) !important;
+            font-size: 0.75rem !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
+            font-weight: 700 !important;
+            padding: 1.1rem 1.5rem !important;
+            border-bottom: 2px solid var(--border) !important;
+        }
+
+        td {
+            padding: 1.1rem 1.5rem !important;
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Ledger Status Visual Badges */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+        .status-badge.admin, .status-badge.completed { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .status-badge.manufacturer, .status-badge.pending { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .status-badge.distributor { background: rgba(0, 242, 254, 0.15); color: var(--primary); }
+        .status-badge.pharmacy { background: rgba(79, 172, 254, 0.15); color: var(--secondary); }
+
+        /* Animation System Rules */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 992px) {
+            .sidebar { width: 80px; }
+            .sidebar-brand h3 span, .sidebar-brand .role-badge, .nav-item span { display: none; }
+            .main-content { margin-left: 80px; width: calc(100% - 80px); padding: 2rem; }
+        }
+
+        @media (max-width: 576px) {
+            .main-content { padding: 1.5rem; }
+            td, th { padding: 0.75rem 1rem !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <h3><i class="fa-solid fa-shield-halved"></i> <span>PharmaChain</span></h3>
+                <span class="role-badge">Admin Node</span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="#" class="nav-item active" onclick="switchSection('dashboard', event)"><i class="fa-solid fa-chart-line"></i> <span>Dashboard</span></a>
+                <a href="#" class="nav-item" onclick="switchSection('nodes', event)"><i class="fa-solid fa-network-wired"></i> <span>Registered Nodes</span></a>
+                <a href="#" class="nav-item" onclick="switchSection('medicines', event)"><i class="fa-solid fa-pills"></i> <span>Medicines</span></a>
+                <a href="#" class="nav-item" onclick="switchSection('orders', event)"><i class="fa-solid fa-file-invoice"></i> <span>All Orders</span></a>
+                <a href="#" class="nav-item" id="admin-logout" style="color:var(--danger); margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> <span>Clear Session</span></a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div id="sec-dashboard" class="dashboard-section">
+                <h2>Global Network Overlord Overview</h2>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h4>Total Registered Nodes</h4>
+                        <h2 id="stat-total-users" style="color:var(--primary);">--</h2>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Total Medicines</h4>
+                        <h2 id="stat-total-meds" style="color:var(--success);">--</h2>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Total Orders</h4>
+                        <h2 id="stat-total-orders" style="color:var(--warning);">--</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sec-nodes" class="dashboard-section" style="display:none;">
+                <h2>Registered Supply Chain Nodes</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr><th>Name</th><th>Email</th><th>Role</th></tr>
+                        </thead>
+                        <tbody id="nodes-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="sec-medicines" class="dashboard-section" style="display:none;">
+                <h2>All Medicines Across Network</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr><th>Name</th><th>Batch</th><th>Stock</th><th>Reserved</th></tr>
+                        </thead>
+                        <tbody id="medicines-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="sec-orders" class="dashboard-section" style="display:none;">
+                <h2>All Orders Across Network</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr><th>Medicine</th><th>Qty</th><th>Buyer</th><th>Status</th></tr>
+                        </thead>
+                        <tbody id="orders-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const app = initializeApp({
+            apiKey: "AIzaSyCG8Nl2pcXWR8vhQB04Z_qIT35eV7MmHHI",
+            authDomain: "pharmachain-system-63ccd.firebaseapp.com",
+            projectId: "pharmachain-system-63ccd",
+            databaseURL: "https://pharmachain-system-63ccd-default-rtdb.firebaseio.com"
+        });
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) window.location.replace("auth.html");
+        });
+
+        window.switchSection = function(id, event) {
+            if(event) event.preventDefault();
+            document.querySelectorAll('.dashboard-section').forEach(el => el.style.display = 'none');
+            document.getElementById('sec-' + id).style.display = 'block';
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            if(event) event.currentTarget.classList.add('active');
+        };
+
+        document.getElementById("admin-logout").addEventListener("click", (e) => {
+            e.preventDefault();
+            signOut(auth).then(() => window.location.replace("auth.html"));
+        });
+
+        // Helper function for role badge formatting
+        const formatRoleBadge = (role) => {
+            const cleanRole = role ? role.trim().toLowerCase() : '';
+            return `<span class="status-badge ${cleanRole}">${role}</span>`;
+        };
+
+        // Live data feeds
+        onValue(ref(db, 'users'), (snapshot) => {
+            const body = document.getElementById("nodes-table-body");
+            body.innerHTML = "";
+            let count = 0;
+            snapshot.forEach((child) => {
+                const u = child.val();
+                count++;
+                body.innerHTML += `<tr><td>${u.fullName}</td><td>${u.emailAddress}</td><td>${formatRoleBadge(u.roleParameter)}</td></tr>`;
+            });
+            document.getElementById("stat-total-users").innerText = count;
+        });
+
+        onValue(ref(db, 'medicines'), (snapshot) => {
+            const body = document.getElementById("medicines-table-body");
+            body.innerHTML = "";
+            let count = 0;
+            snapshot.forEach((child) => {
+                const m = child.val();
+                count++;
+                body.innerHTML += `<tr><td style="font-weight:700;">${m.name}</td><td><code>${m.batch}</code></td><td>${m.stock}</td><td>${m.reserved}</td></tr>`;
+            });
+            document.getElementById("stat-total-meds").innerText = count;
+        });
+
+        onValue(ref(db, 'orders'), (snapshot) => {
+            const body = document.getElementById("orders-table-body");
+            body.innerHTML = "";
+            let count = 0;
+            snapshot.forEach((child) => {
+                const o = child.val();
+                count++;
+                const statusClass = o.status ? o.status.trim().toLowerCase() : 'pending';
+                body.innerHTML += `<tr><td style="font-weight:700;">${o.name}</td><td>${o.qty}</td><td>${o.buyer}</td><td><span class="status-badge ${statusClass}">${o.status}</span></td></tr>`;
+            });
+            document.getElementById("stat-total-orders").innerText = count;
+        });
+    </script>
+</body>
+</html>
